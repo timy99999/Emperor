@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./api-config.js"></script>
 <script src="./support.js"></script>
 </head>
 <body>
@@ -452,7 +453,7 @@ class Component extends DCLogic {
   }
 
   loadLikes() {
-    fetch('/api/likes?visitorId=' + encodeURIComponent(this.visitorId))
+    fetch((window.API_BASE || '') + '/api/likes?visitorId=' + encodeURIComponent(this.visitorId))
       .then((r) => r.ok ? r.json() : null)
       .then((data) => {
         if (!data) return;
@@ -464,7 +465,7 @@ class Component extends DCLogic {
   }
 
   loadApproved() {
-    fetch('/api/suggestions?status=approved')
+    fetch((window.API_BASE || '') + '/api/suggestions?status=approved')
       .then((r) => r.ok ? r.json() : [])
       .then((list) => this.setState({ approvedSuggestions: list || [] }))
       .catch(() => {});
@@ -478,7 +479,7 @@ class Component extends DCLogic {
       optimisticCounts[i] = Math.max(0, (optimisticCounts[i] || 0) + (wasLiked ? -1 : 1));
       this.setState((s) => ({ likes: { ...s.likes, [i]: !wasLiked }, likeCounts: optimisticCounts }));
 
-      fetch('/api/likes/' + i, {
+      fetch((window.API_BASE || '') + '/api/likes/' + i, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ visitorId: this.visitorId })
@@ -559,7 +560,7 @@ class Component extends DCLogic {
       send: () => this.requireAuth(() => {
         const text = this.state.draft.trim();
         this.setState({ sendError: null });
-        fetch('/api/suggestions', {
+        fetch((window.API_BASE || '') + '/api/suggestions', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ text, visitorId: this.visitorId })

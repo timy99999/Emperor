@@ -28,8 +28,8 @@
   function api(path, opts) {
     opts = opts || {};
     opts.headers = Object.assign({ 'Content-Type': 'application/json' }, opts.headers || {});
-    opts.credentials = 'same-origin';
-    return fetch('/api' + path, opts).then(function (res) {
+    opts.credentials = 'include';
+    return fetch((window.API_BASE || '') + '/api' + path, opts).then(function (res) {
       if (!res.ok) return res.json().catch(function () { return {}; }).then(function (body) {
         throw Object.assign(new Error(body.error || 'request_failed'), { status: res.status });
       });

@@ -5,9 +5,14 @@ const requireAdmin = require('../middleware/requireAdmin');
 
 const router = express.Router();
 
+// COOKIE_SECURE=true (set on Railway) switches the cookie to SameSite=None; Secure,
+// which cross-site requests (frontend on Vercel, API on Railway) require. Plain
+// 'lax' is used for local dev over http://localhost, where 'none' cookies are dropped.
+const CROSS_SITE = process.env.COOKIE_SECURE === 'true';
 const COOKIE_OPTS = {
   httpOnly: true,
-  sameSite: 'lax',
+  sameSite: CROSS_SITE ? 'none' : 'lax',
+  secure: CROSS_SITE,
   maxAge: 7 * 24 * 60 * 60 * 1000,
 };
 

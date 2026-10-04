@@ -7,7 +7,9 @@
 const fs = require('fs');
 const path = require('path');
 
-const FILE = path.join(__dirname, 'data.json');
+// DATA_FILE lets Railway point this at a mounted volume (e.g. /data/data.json) so
+// likes/suggestions survive redeploys instead of resetting with the container.
+const FILE = process.env.DATA_FILE || path.join(__dirname, 'data.json');
 
 function load() {
   if (!fs.existsSync(FILE)) {

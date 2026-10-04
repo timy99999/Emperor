@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/", "destination": "/Император.dc.html" },
+    { "source": "/admin", "destination": "/admin.html" }
+  ]
+}
