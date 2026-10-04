@@ -446,34 +446,32 @@ class Component extends DCLogic {
   }
 
   toggleLike(i) {
-    this.requireAuth(() => {
-      const wasLiked = !!this.state.likes[i];
-      const prevCounts = this.state.likeCounts;
-      const optimisticCounts = prevCounts.slice();
-      optimisticCounts[i] = Math.max(0, (optimisticCounts[i] || 0) + (wasLiked ? -1 : 1));
-      this.setState((s) => ({ likes: { ...s.likes, [i]: !wasLiked }, likeCounts: optimisticCounts }));
+    const wasLiked = !!this.state.likes[i];
+    const prevCounts = this.state.likeCounts;
+    const optimisticCounts = prevCounts.slice();
+    optimisticCounts[i] = Math.max(0, (optimisticCounts[i] || 0) + (wasLiked ? -1 : 1));
+    this.setState((s) => ({ likes: { ...s.likes, [i]: !wasLiked }, likeCounts: optimisticCounts }));
 
-      fetch((window.API_BASE || '') + '/api/likes/' + i, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ visitorId: this.visitorId })
-      })
-        .then((r) => r.ok ? r.json() : Promise.reject())
-        .then((res) => {
-          this.setState((s) => {
-            const likes = { ...s.likes, [i]: res.liked };
-            const likeCounts = s.likeCounts.slice();
-            likeCounts[i] = res.count;
-            return { likes, likeCounts };
-          });
-        })
-        .catch(() => {
-          this.setState(() => ({
-            likes: { ...this.state.likes, [i]: wasLiked },
-            likeCounts: prevCounts
-          }));
+    fetch((window.API_BASE || '') + '/api/likes/' + i, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ visitorId: this.visitorId })
+    })
+      .then((r) => r.ok ? r.json() : Promise.reject())
+      .then((res) => {
+        this.setState((s) => {
+          const likes = { ...s.likes, [i]: res.liked };
+          const likeCounts = s.likeCounts.slice();
+          likeCounts[i] = res.count;
+          return { likes, likeCounts };
         });
-    });
+      })
+      .catch(() => {
+        this.setState(() => ({
+          likes: { ...this.state.likes, [i]: wasLiked },
+          likeCounts: prevCounts
+        }));
+      });
   }
 
   renderVals() {
