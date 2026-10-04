@@ -8,6 +8,7 @@ const cookieParser = require('cookie-parser');
 const suggestionsRouter = require('./routes/suggestions');
 const likesRouter = require('./routes/likes');
 const adminRouter = require('./routes/admin');
+const ideasRouter = require('./routes/ideas');
 
 if (!process.env.SESSION_SECRET) {
   console.error('SESSION_SECRET is not set. Copy server/.env.example to server/.env and fill it in.');
@@ -31,6 +32,7 @@ app.use(cookieParser());
 app.use('/api/suggestions', suggestionsRouter);
 app.use('/api/likes', likesRouter);
 app.use('/api/admin', adminRouter);
+app.use('/api/ideas', ideasRouter);
 
 // Serve the static site (Император.dc.html, _ds/, support.js, admin.html, uploads, ...)
 // from the project root, one directory up from server/.

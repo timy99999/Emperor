@@ -1,20 +1,6 @@
 (function () {
   'use strict';
 
-  var IDEA_TITLES = [
-    'Дискотека после файналов',
-    'Музыка на большой перемене',
-    'Игра «Бегущий мудрец»',
-    'Турниры и квизы',
-    'Pajama Day',
-    'Номинации семестра',
-    'Новый год',
-    '«Королевский бал»',
-    'Маскот колледжа',
-    'Соревнование между группами',
-    'Онлайн-платформа TSI',
-  ];
-
   var STATUS_LABEL = { pending: 'На модерации', approved: 'Одобрено', rejected: 'Отклонено' };
 
   var loginScreen = document.getElementById('login-screen');
@@ -22,7 +8,11 @@
   var loginForm = document.getElementById('login-form');
   var loginError = document.getElementById('login-error');
   var suggestionsList = document.getElementById('suggestions-list');
-  var likesTable = document.getElementById('likes-table');
+  var ideasList = document.getElementById('ideas-list');
+  var ideaNewTitle = document.getElementById('idea-new-title');
+  var ideaNewText = document.getElementById('idea-new-text');
+  var ideaAddError = document.getElementById('idea-add-error');
+  var ideaAddBtn = document.getElementById('idea-add-btn');
   var logoutBtn = document.getElementById('logout-btn');
 
   function api(path, opts) {
@@ -41,7 +31,7 @@
     loginScreen.style.display = 'none';
     dashboard.style.display = 'block';
     loadSuggestions();
-    loadLikes();
+    loadIdeas();
   }
 
   function showLogin() {
@@ -135,30 +125,98 @@
       .catch(function (err) { if (err.status === 401) showLogin(); });
   }
 
-  function loadLikes() {
-    api('/likes').then(function (data) {
-      var counts = data.counts || [];
-      var rows = IDEA_TITLES.map(function (title, i) {
-        return { title: title, count: counts[i] || 0 };
-      }).sort(function (a, b) { return b.count - a.count; });
+  function renderIdeas(ideas, likeCounts) {
+    ideasList.innerHTML = '';
+    if (!ideas.length) {
+      ideasList.innerHTML = '<p class="empty">Идей пока нет — добавьте первую выше.</p>';
+      return;
+    }
+    ideas.forEach(function (idea) {
+      var card = document.createElement('div');
+      card.className = 'card';
 
-      likesTable.innerHTML = '';
-      rows.forEach(function (r) {
-        var tr = document.createElement('tr');
-        var tdTitle = document.createElement('td');
-        tdTitle.textContent = r.title;
-        var tdCount = document.createElement('td');
-        tdCount.className = 'count';
-        tdCount.style.textAlign = 'right';
-        tdCount.textContent = r.count;
-        tr.appendChild(tdTitle);
-        tr.appendChild(tdCount);
-        likesTable.appendChild(tr);
-      });
-    }).catch(function (err) {
-      if (err.status === 401) showLogin();
+      var titleInput = document.createElement('input');
+      titleInput.type = 'text';
+      titleInput.className = 'idea-title';
+      titleInput.value = idea.title;
+
+      var textArea = document.createElement('textarea');
+      textArea.className = 'idea-text';
+      textArea.value = idea.text;
+
+      var meta = document.createElement('div');
+      meta.className = 'meta';
+      var likes = document.createElement('span');
+      likes.className = 'idea-likes';
+      likes.textContent = 'Лайков: ' + (likeCounts[idea.id] || 0);
+      meta.appendChild(likes);
+
+      var error = document.createElement('div');
+      error.className = 'error';
+
+      var actions = document.createElement('div');
+      actions.className = 'actions';
+      actions.appendChild(makeButton('Сохранить', 'btn-primary', function () {
+        var title = titleInput.value.trim();
+        var text = textArea.value.trim();
+        error.textContent = '';
+        if (!title || !text) {
+          error.textContent = 'Название и текст не должны быть пустыми.';
+          return;
+        }
+        api('/ideas/' + idea.id, { method: 'PATCH', body: JSON.stringify({ title: title, text: text }) })
+          .then(loadIdeas)
+          .catch(function (err) {
+            if (err.status === 401) return showLogin();
+            error.textContent = 'Не получилось сохранить.';
+          });
+      }));
+      actions.appendChild(makeButton('Удалить', 'btn-danger', function () {
+        if (confirm('Удалить идею «' + idea.title + '» безвозвратно?')) {
+          api('/ideas/' + idea.id, { method: 'DELETE' })
+            .then(loadIdeas)
+            .catch(function (err) { if (err.status === 401) showLogin(); });
+        }
+      }));
+
+      card.appendChild(titleInput);
+      card.appendChild(textArea);
+      card.appendChild(meta);
+      card.appendChild(error);
+      card.appendChild(actions);
+      ideasList.appendChild(card);
     });
   }
+
+  function loadIdeas() {
+    Promise.all([api('/ideas'), api('/likes')])
+      .then(function (results) {
+        var ideas = results[0] || [];
+        var likeCounts = (results[1] && results[1].counts) || {};
+        renderIdeas(ideas, likeCounts);
+      })
+      .catch(function (err) { if (err.status === 401) showLogin(); });
+  }
+
+  ideaAddBtn.addEventListener('click', function () {
+    var title = ideaNewTitle.value.trim();
+    var text = ideaNewText.value.trim();
+    ideaAddError.textContent = '';
+    if (!title || !text) {
+      ideaAddError.textContent = 'Заполните название и описание.';
+      return;
+    }
+    api('/ideas', { method: 'POST', body: JSON.stringify({ title: title, text: text }) })
+      .then(function () {
+        ideaNewTitle.value = '';
+        ideaNewText.value = '';
+        loadIdeas();
+      })
+      .catch(function (err) {
+        if (err.status === 401) return showLogin();
+        ideaAddError.textContent = 'Не получилось добавить идею.';
+      });
+  });
 
   loginForm.addEventListener('submit', function (e) {
     e.preventDefault();
