@@ -280,7 +280,7 @@ a:hover { color: #c8282e; }
   </sc-if>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;instagramUrl&quot;: {&quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;https://instagram.com/&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Ссылки&quot;}, &quot;youtubeUrl&quot;: {&quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;https://youtube.com/&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Ссылки&quot;}, &quot;animations&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Поведение&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;instagramUrl&quot;: {&quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;https://www.instagram.com/timy99999?stkn=ZzVlNDJjM3o2bXRq&amp;utm_source=qr&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Ссылки&quot;}, &quot;youtubeUrl&quot;: {&quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;https://youtube.com/@timy99999?si=yholXWffP1V4b4OQ&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Ссылки&quot;}, &quot;animations&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Поведение&quot;}}">
 class Component extends DCLogic {
   state = { page: 'home', open: {}, likes: {}, likeCounts: {}, ideas: [], approvedSuggestions: [], user: null, authOpen: false, menuOpen: false, suggestOpen: false, draft: '', sent: false, sendError: null, narrow: false, pending: null };
 
@@ -494,8 +494,8 @@ class Component extends DCLogic {
       signedIn: !!s.user, signedOut: !s.user, menuOpen: s.menuOpen && !!s.user,
       userEmail: s.user ? s.user.email : '',
       authOpen: s.authOpen,
-      instagramUrl: this.props.instagramUrl ?? 'https://instagram.com/',
-      youtubeUrl: this.props.youtubeUrl ?? 'https://youtube.com/',
+      instagramUrl: this.props.instagramUrl ?? 'https://www.instagram.com/timy99999?stkn=ZzVlNDJjM3o2bXRq&utm_source=qr',
+      youtubeUrl: this.props.youtubeUrl ?? 'https://youtube.com/@timy99999?si=yholXWffP1V4b4OQ',
       ideas,
       showSuggestBtn: !s.suggestOpen && !s.sent, suggestOpen: s.suggestOpen && !s.sent, sent: s.sent,
       draft: s.draft, sendDisabled: !s.draft.trim(), sendError: s.sendError || '',
