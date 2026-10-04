@@ -1,0 +1,4 @@
+node_modules/
+server/.env
+server/data.json
+server/data.json.tmp

@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/classical-37a45c4d-6cc7-44df-8a2b-2a4a5065b5ed/styles.css">
+<script src="_ds/classical-37a45c4d-6cc7-44df-8a2b-2a4a5065b5ed/_ds_bundle.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap">
+<script src="./image-slot.js"></script>
+<title>Император — Кандидат №3 Расулов Тимур</title>
+<style>
+html { scroll-behavior: smooth; }
+body { margin: 0; overflow-x: hidden; background: #f3f2f2; }
+a { color: #1d3a8f; }
+a:hover { color: #c8282e; }
+</style>
+</helmet>
+<div lang="ru" style="position: relative; min-height: 100vh; background: var(--color-bg); color: var(--color-text); font-family: var(--font-body); overflow-x: clip;">
+
+  <div ref="{{ barRef }}" style="position: fixed; top: 0; left: 0; right: 0; height: 3px; background: #c8282e; transform-origin: 0 50%; transform: scaleX(0); z-index: 60;"></div>
+
+  <header data-reveal="down" style="position: fixed; top: 16px; right: 16px; z-index: 50; display: flex; align-items: center; gap: 4px; padding: 6px; background: color-mix(in srgb, var(--color-bg) 86%, transparent); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid var(--color-divider); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm);">
+    <sc-if value="{{ showLinks }}" hint-placeholder-val="{{ true }}">
+      <nav style="display: flex; align-items: center; gap: 2px; padding-right: 6px; margin-right: 4px; border-right: 1px solid var(--color-divider);">
+        <button onClick="{{ goAbout }}" style="font: 500 17px/1 var(--font-heading); color: var(--color-text); background: none; border: 0; padding: 10px 12px; cursor: pointer; border-radius: var(--radius-md); white-space: nowrap;" style-hover="color: #1d3a8f; background: #e6ebf7;">Обо мне</button>
+        <button onClick="{{ goIdeas }}" style="font: 500 17px/1 var(--font-heading); color: var(--color-text); background: none; border: 0; padding: 10px 12px; cursor: pointer; border-radius: var(--radius-md); white-space: nowrap;" style-hover="color: #c8282e; background: #f9e5e4;">Идеи</button>
+        <button onClick="{{ goSuggest }}" style="font: 500 17px/1 var(--font-heading); color: var(--color-text); background: none; border: 0; padding: 10px 12px; cursor: pointer; border-radius: var(--radius-md); white-space: nowrap;" style-hover="color: #1d3a8f; background: #e6ebf7;">Предложения</button>
+        <button onClick="{{ goDoubt }}" style="font: 500 17px/1 var(--font-heading); color: var(--color-text); background: none; border: 0; padding: 10px 12px; cursor: pointer; border-radius: var(--radius-md); white-space: nowrap;" style-hover="color: #c8282e; background: #f9e5e4;">Не верите?</button>
+      </nav>
+    </sc-if>
+    <sc-if value="{{ signedOut }}" hint-placeholder-val="{{ true }}">
+      <button onClick="{{ openAuth }}" aria-label="Регистрация через Google" title="Регистрация" style="width: 44px; height: 44px; display: grid; place-items: center; border: 1px solid #1d3a8f; border-radius: 50%; background: transparent; color: #1d3a8f; cursor: pointer; transition: background .2s;" style-hover="background: #e6ebf7;" style-active="background: #ccd6ef;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" style="stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round;"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="10" r="3"></circle><path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"></path></svg>
+      </button>
+    </sc-if>
+    <sc-if value="{{ signedIn }}" hint-placeholder-val="{{ false }}">
+      <button onClick="{{ toggleMenu }}" aria-label="Аккаунт" style="width: 44px; height: 44px; display: grid; place-items: center; border: 1px solid #1d3a8f; border-radius: 50%; background: #1d3a8f; color: #f3f2f2; cursor: pointer;" style-hover="background: #2a4aa8;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" style="stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;"><path d="M20 6 9 17l-5-5"></path></svg>
+      </button>
+    </sc-if>
+    <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+      <div style="position: absolute; top: calc(100% + 8px); right: 0; min-width: 240px; padding: 16px; display: flex; flex-direction: column; gap: 10px; background: var(--color-surface); border: 1px solid var(--color-divider); border-radius: var(--radius-lg); box-shadow: var(--shadow-md);">
+        <div style="font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--color-neutral-700);">Вы вошли через Google</div>
+        <div style="font: 600 20px/1.2 var(--font-heading);">{{ userEmail }}</div>
+        <button class="btn btn-secondary" onClick="{{ signOut }}" style="justify-content: flex-start; font-size: 15px;">Выйти</button>
+      </div>
+    </sc-if>
+  </header>
+
+  <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+    <main>
+      <section data-screen-label="Hero" style="position: relative; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr)); min-height: 100vh; overflow: hidden;">
+        <div style="position: relative; display: flex; align-items: center; padding: clamp(120px, 14vh, 160px) clamp(20px, 5vw, 72px) clamp(72px, 10vh, 120px); overflow: hidden;">
+          <div ref="{{ ghostRef }}" aria-hidden="true" style="position: absolute; left: -2vw; bottom: -14vh; font: 600 min(62vh, 52vw)/0.8 var(--font-heading); color: transparent; -webkit-text-stroke: 1.5px #1d3a8f; opacity: .14; pointer-events: none; user-select: none; letter-spacing: -0.05em;">3</div>
+          <div style="position: relative; transform: rotate(-6deg); transform-origin: 0% 50%;">
+            <div data-reveal="left" style="font: 500 clamp(54px, 7.6vw, 132px)/0.88 var(--font-heading); color: #1d3a8f; letter-spacing: -0.035em;">Кандидат</div>
+            <div data-reveal="left" data-delay="120" style="font: 500 clamp(54px, 7.6vw, 132px)/0.88 var(--font-heading); color: #1d3a8f; letter-spacing: -0.035em; display: flex; align-items: baseline; gap: .18em;"><span>номер</span><span style="font-style: italic; font-weight: 600; font-size: 1.32em;">3</span></div>
+            <div data-reveal="left" data-delay="260" style="margin-top: .12em; font: 600 clamp(58px, 8.4vw, 148px)/0.88 var(--font-heading); color: #c8282e; letter-spacing: -0.035em;">Расулов</div>
+            <div data-reveal="left" data-delay="380" style="font: 600 clamp(58px, 8.4vw, 148px)/0.88 var(--font-heading); color: #c8282e; letter-spacing: -0.035em;">Тимур</div>
+            <div data-reveal="up" data-delay="620" style="margin-top: 28px; display: flex; align-items: center; gap: 14px; font: 400 15px/1 var(--font-body); letter-spacing: .22em; color: var(--color-text);"><span style="width: 44px; height: 1px; background: currentColor;"></span><span>#VoteForTimy</span></div>
+          </div>
+        </div>
+        <div style="position: relative; min-height: 560px; overflow: hidden; border-left: 1px solid var(--color-divider);">
+          <div ref="{{ photoRef }}" data-reveal="scale" style="position: absolute; top: -6%; bottom: -6%; left: 0; right: 0;">
+            <image-slot id="hero-photo" shape="rect" fit="cover" placeholder="Перетащите сюда фото 1"></image-slot>
+          </div>
+        </div>
+      </section>
+
+      <section data-screen-label="Manifest" style="background: #1d3a8f; color: #f3f2f2; padding: clamp(64px, 9vw, 136px) clamp(20px, 5vw, 72px);">
+        <div style="max-width: 1240px; margin: 0 auto; display: flex; flex-direction: column; gap: 28px;">
+          <div data-reveal="up" style="display: flex; align-items: center; gap: 16px; font: 400 13px/1 var(--font-body); letter-spacing: .24em; text-transform: uppercase; color: #ffd0cc;"><span>Моё обещание</span><span style="flex: 1; height: 1px; background: color-mix(in srgb, #f3f2f2 30%, transparent);"></span></div>
+          <p data-reveal="up" data-delay="100" style="margin: 0; font: italic 400 clamp(30px, 4vw, 60px)/1.14 var(--font-heading); letter-spacing: -0.01em; text-wrap: pretty;">Студенческая жизнь — это отдельная культура колледжа, и я собираюсь сделать её максимально яркой и запоминающейся.</p>
+          <p data-reveal="up" data-delay="220" style="margin: 0; font: italic 400 clamp(24px, 2.6vw, 40px)/1.2 var(--font-heading); color: #ffd0cc; text-wrap: pretty;">А если у меня не получится (что вряд ли) — можете закидать меня <span style="text-decoration: underline; text-decoration-color: #ff6b5e; text-decoration-thickness: 2px; text-underline-offset: 6px;">помидорами</span>.</p>
+        </div>
+      </section>
+
+      <sc-if value="{{ showTicker }}" hint-placeholder-val="{{ true }}">
+        <div aria-hidden="true" style="overflow: hidden; border-bottom: 1px solid #c8282e; padding: 22px 0; white-space: nowrap;">
+          <div ref="{{ tickerRef }}" style="display: inline-flex; align-items: center; gap: 48px; padding-left: 48px; font: 600 clamp(28px, 3.6vw, 52px)/1 var(--font-heading); text-transform: uppercase; letter-spacing: .02em; will-change: transform;">
+            <span style="color: #c8282e;">#VoteForTimy</span><span style="color: #1d3a8f; font-style: italic;">Кандидат №3</span><span style="color: #c8282e;">Расулов Тимур</span><span style="color: #1d3a8f; font-style: italic;">Сенат TSI</span>
+            <span style="color: #c8282e;">#VoteForTimy</span><span style="color: #1d3a8f; font-style: italic;">Кандидат №3</span><span style="color: #c8282e;">Расулов Тимур</span><span style="color: #1d3a8f; font-style: italic;">Сенат TSI</span>
+            <span style="color: #c8282e;">#VoteForTimy</span><span style="color: #1d3a8f; font-style: italic;">Кандидат №3</span><span style="color: #c8282e;">Расулов Тимур</span><span style="color: #1d3a8f; font-style: italic;">Сенат TSI</span>
+            <span style="color: #c8282e;">#VoteForTimy</span><span style="color: #1d3a8f; font-style: italic;">Кандидат №3</span><span style="color: #c8282e;">Расулов Тимур</span><span style="color: #1d3a8f; font-style: italic;">Сенат TSI</span>
+          </div>
+        </div>
+      </sc-if>
+
+      <section id="about" data-screen-label="01 Обо мне" style="padding: clamp(80px, 11vw, 168px) clamp(20px, 5vw, 72px);">
+        <div style="max-width: 1240px; margin: 0 auto; display: flex; flex-direction: column; gap: clamp(32px, 4vw, 56px);">
+          <div data-reveal="up" style="display: flex; align-items: center; gap: 16px; font: 400 13px/1 var(--font-body); letter-spacing: .24em; text-transform: uppercase; color: #c8282e; font-feature-settings: 'tnum';"><span>01</span><span style="flex: 1; height: 1px; background: var(--color-divider);"></span><span>Кандидат №3</span></div>
+          <h2 data-reveal="left" style="margin: 0; font: 500 clamp(56px, 9vw, 148px)/0.9 var(--font-heading); letter-spacing: -0.035em; color: #1d3a8f;">Обо мне</h2>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: clamp(32px, 5vw, 80px); align-items: start;">
+            <p data-reveal="up" style="margin: 0; font: 400 clamp(28px, 3vw, 42px)/1.18 var(--font-heading); text-wrap: pretty;">Я Расулов Тимур, мне 16 лет. Обучаюсь на 1 курсе, в группе <span style="color: #c8282e; font-style: italic;">ES-4-26</span>.</p>
+            <div style="display: flex; flex-direction: column; gap: 18px;">
+              <p data-reveal="up" data-delay="80" style="margin: 0; font-size: 17px; line-height: 1.7; text-align: justify; hyphens: auto;">Веду активную и интересную жизнь. Участвую в различных проектах и внешкольных активностях. Ранее занимал должность президента парламента школы «Эврика».</p>
+              <p data-reveal="up" data-delay="160" style="margin: 0; font-size: 17px; line-height: 1.7; text-align: justify; hyphens: auto;">Развиваю собственный блог в социальных сетях. Суммарное количество просмотров на моём YouTube-канале — более 1🍋! Люблю путешествовать, побывал в 8 странах.</p>
+              <div data-reveal="up" data-delay="240" style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;">
+                <a class="btn btn-secondary" href="{{ instagramUrl }}" target="_blank" rel="noopener" style="padding: 12px 18px; font-size: 17px; color: var(--color-text);">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" style="stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round;"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>
+                  Instagram
+                </a>
+                <a class="btn btn-secondary" href="{{ youtubeUrl }}" target="_blank" rel="noopener" style="padding: 12px 18px; font-size: 17px; color: var(--color-text);">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" style="stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round;"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"></path><path d="m10 15 5-3-5-3z"></path></svg>
+                  YouTube
+                </a>
+                <button class="btn" onClick="{{ openLetter }}" style="padding: 12px 18px; font-size: 17px; color: #c8282e; border-color: #c8282e;" style-hover="background: #f9e5e4;" style-active="background: #f2cbc9;">
+                  Мотивационное письмо
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" style="stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round;"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); border-top: 1px solid var(--color-divider);">
+            <div data-reveal="up" style="padding: 28px 24px 8px 0; display: flex; flex-direction: column; gap: 8px;"><span style="font: 500 clamp(52px, 5.4vw, 84px)/1 var(--font-heading); color: #1d3a8f; font-feature-settings: 'tnum';">16</span><span style="font-size: 14px; color: var(--color-neutral-700);">лет</span></div>
+            <div data-reveal="up" data-delay="90" style="padding: 28px 24px 8px 0; display: flex; flex-direction: column; gap: 8px;"><span style="font: 500 clamp(52px, 5.4vw, 84px)/1 var(--font-heading); color: #c8282e; font-feature-settings: 'tnum';">1 курс</span><span style="font-size: 14px; color: var(--color-neutral-700);">группа ES-4-26</span></div>
+            <div data-reveal="up" data-delay="180" style="padding: 28px 24px 8px 0; display: flex; flex-direction: column; gap: 8px;"><span style="font: 500 clamp(52px, 5.4vw, 84px)/1 var(--font-heading); color: #1d3a8f; font-feature-settings: 'tnum';">1🍋+</span><span style="font-size: 14px; color: var(--color-neutral-700);">просмотров на YouTube</span></div>
+            <div data-reveal="up" data-delay="270" style="padding: 28px 24px 8px 0; display: flex; flex-direction: column; gap: 8px;"><span style="font: 500 clamp(52px, 5.4vw, 84px)/1 var(--font-heading); color: #c8282e; font-feature-settings: 'tnum';">8</span><span style="font-size: 14px; color: var(--color-neutral-700);">стран за плечами</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="ideas" data-screen-label="02 Мои идеи" style="padding: clamp(80px, 11vw, 168px) clamp(20px, 5vw, 72px); border-top: 1px solid var(--color-divider);">
+        <div style="max-width: 1240px; margin: 0 auto; display: flex; flex-direction: column; gap: clamp(32px, 4vw, 56px);">
+          <div data-reveal="up" style="display: flex; align-items: center; gap: 16px; font: 400 13px/1 var(--font-body); letter-spacing: .24em; text-transform: uppercase; color: #1d3a8f; font-feature-settings: 'tnum';"><span>02</span><span style="flex: 1; height: 1px; background: var(--color-divider);"></span><span>Программа</span></div>
+          <h2 data-reveal="left" style="margin: 0; font: 500 clamp(56px, 9vw, 148px)/0.9 var(--font-heading); letter-spacing: -0.035em; color: #c8282e;">Мои идеи:</h2>
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            <sc-for list="{{ ideas }}" as="item" hint-placeholder-count="11">
+              <div data-reveal="up">
+                <div onClick="{{ item.toggle }}" style="border: 1px solid {{ item.border }}; border-radius: var(--radius-md); background: {{ item.bg }}; cursor: pointer; transition: border-color .35s, background .35s;" style-hover="border-color: #1d3a8f;">
+                  <div style="display: flex; align-items: center; gap: clamp(12px, 2vw, 24px); padding: clamp(16px, 2vw, 24px) clamp(16px, 2vw, 24px);">
+                    <button aria-expanded="{{ item.expanded }}" style="flex: 1; min-width: 0; display: flex; align-items: baseline; gap: clamp(12px, 2vw, 24px); text-align: left; background: none; border: 0; padding: 0; cursor: pointer; color: inherit;">
+                      <span style="flex: none; width: 2.2em; font: 400 15px/1 var(--font-body); color: #1d3a8f; font-feature-settings: 'tnum';">{{ item.n }}</span>
+                      <span style="font: 500 clamp(22px, 2.6vw, 36px)/1.15 var(--font-heading); letter-spacing: -0.01em; text-wrap: pretty;">{{ item.title }}</span>
+                    </button>
+                    <span aria-hidden="true" style="flex: none; min-width: 22px; text-align: center; font: 500 14px/1 var(--font-body); color: var(--color-neutral-700); font-feature-settings: 'tnum';">{{ item.count }}</span>
+                    <button onClick="{{ item.like }}" aria-label="Нравится" aria-pressed="{{ item.liked }}" style="flex: none; width: 46px; height: 46px; display: grid; place-items: center; border: 1px solid {{ item.likeBorder }}; border-radius: 50%; background: transparent; color: {{ item.heartColor }}; cursor: pointer; transition: transform .2s, border-color .2s;" style-hover="border-color: #c8282e; color: #c8282e;" style-active="transform: scale(.9);">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="{{ item.heartFill }}" stroke="currentColor" style="stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round;"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg>
+                    </button>
+                    <span aria-hidden="true" style="flex: none; width: 46px; height: 46px; display: grid; place-items: center; border: 1px solid var(--color-divider); border-radius: 50%; color: #1d3a8f; transform: {{ item.chevron }}; transition: transform .45s cubic-bezier(.2,.7,.2,1);">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" style="stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round;"><path d="m6 9 6 6 6-6"></path></svg>
+                    </span>
+                  </div>
+                  <div style="display: grid; grid-template-rows: {{ item.rows }}; transition: grid-template-rows .5s cubic-bezier(.2,.7,.2,1);">
+                    <div style="overflow: hidden;">
+                      <p style="margin: 0; padding: 0 clamp(16px, 2vw, 24px) clamp(20px, 2.4vw, 28px) calc(clamp(16px, 2vw, 24px) + 2.2em + clamp(12px, 2vw, 24px)); max-width: 980px; font-size: 17px; line-height: 1.7; text-align: justify; hyphens: auto; opacity: {{ item.textOpacity }}; transition: opacity .5s;">{{ item.text }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </section>
+
+      <section id="suggest" data-screen-label="03 Ваши предложения" style="padding: clamp(80px, 11vw, 168px) clamp(20px, 5vw, 72px); border-top: 1px solid var(--color-divider);">
+        <div style="max-width: 1240px; margin: 0 auto; display: flex; flex-direction: column; gap: clamp(32px, 4vw, 56px);">
+          <div data-reveal="up" style="display: flex; align-items: center; gap: 16px; font: 400 13px/1 var(--font-body); letter-spacing: .24em; text-transform: uppercase; color: #c8282e; font-feature-settings: 'tnum';"><span>03</span><span style="flex: 1; height: 1px; background: var(--color-divider);"></span><span>Ваш голос</span></div>
+          <h2 data-reveal="left" style="margin: 0; font: 500 clamp(56px, 9vw, 148px)/0.9 var(--font-heading); letter-spacing: -0.035em; color: #1d3a8f;">Ваши предложения</h2>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: clamp(32px, 5vw, 80px); align-items: start;">
+            <p data-reveal="up" style="margin: 0; font: 400 clamp(28px, 3vw, 42px)/1.18 var(--font-heading); text-wrap: pretty;">Вы можете отправить мне все ваши идеи, пожелания, жалобы — и всё-всё, что хотите.</p>
+            <div style="display: flex; flex-direction: column; gap: 20px;">
+              <p data-reveal="up" data-delay="80" style="margin: 0; font-size: 17px; line-height: 1.7; text-align: justify; hyphens: auto;">Наиболее интересные идеи будут добавляться на мой сайт, а самое главное — реализовываться в жизни в случае моей победы на предстоящих выборах.</p>
+              <sc-if value="{{ showSuggestBtn }}" hint-placeholder-val="{{ true }}">
+                <div data-reveal="up" data-delay="160">
+                  <button class="btn" onClick="{{ openSuggest }}" style="padding: 14px 22px; font-size: 18px; color: #1d3a8f; border-color: #1d3a8f;" style-hover="background: #e6ebf7;" style-active="background: #ccd6ef;">
+                    Отправить предложение
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" style="stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round;"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                  </button>
+                </div>
+              </sc-if>
+              <sc-if value="{{ suggestOpen }}" hint-placeholder-val="{{ false }}">
+                <div data-reveal="up" style="display: flex; flex-direction: column; gap: 12px;">
+                  <div class="field">
+                    <label for="suggest-text">Ваше предложение</label>
+                    <textarea id="suggest-text" class="input" value="{{ draft }}" onChange="{{ onDraft }}" placeholder="Идея, пожелание, жалоба — пишите как есть" style="min-height: 180px; font-size: 16px; line-height: 1.6; padding: 14px 16px;"></textarea>
+                  </div>
+                  <sc-if value="{{ sendError }}" hint-placeholder-val="{{ false }}">
+                    <div style="font-size: 14px; color: #c8282e;">{{ sendError }}</div>
+                  </sc-if>
+                  <div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center;">
+                    <button class="btn" onClick="{{ send }}" disabled="{{ sendDisabled }}" style="padding: 12px 22px; font-size: 17px; color: #c8282e; border-color: #c8282e;" style-hover="background: #f9e5e4;" style-active="background: #f2cbc9;">
+                      Отправить
+                      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" style="stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round;"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"></path><path d="m21.854 2.147-10.94 10.939"></path></svg>
+                    </button>
+                    <button class="btn btn-ghost" onClick="{{ closeSuggest }}" style="font-size: 16px; color: var(--color-neutral-700);">Отмена</button>
+                  </div>
+                </div>
+              </sc-if>
+              <sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
+                <div data-reveal="up" style="display: flex; flex-direction: column; gap: 14px; padding: 24px; border: 1px solid #1d3a8f; border-radius: var(--radius-md);">
+                  <div style="font: 500 30px/1.15 var(--font-heading); color: #1d3a8f;">Спасибо! Предложение у меня.</div>
+                  <p style="margin: 0; font-size: 16px; line-height: 1.6;">Самые интересные идеи появятся здесь, на сайте.</p>
+                  <div><button class="btn btn-secondary" onClick="{{ again }}" style="font-size: 16px; padding: 10px 16px;">Отправить ещё одно</button></div>
+                </div>
+              </sc-if>
+              <sc-if value="{{ hasApproved }}" hint-placeholder-val="{{ false }}">
+                <div data-reveal="up" style="display: flex; flex-direction: column; gap: 14px; margin-top: 8px;">
+                  <div style="font: 400 13px/1 var(--font-body); letter-spacing: .2em; text-transform: uppercase; color: var(--color-neutral-700);">Что уже предложили</div>
+                  <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <sc-for list="{{ approvedSuggestions }}" as="s" hint-placeholder-count="0">
+                      <div style="padding: 14px 16px; border: 1px solid var(--color-divider); border-radius: var(--radius-md); font-size: 15px; line-height: 1.6;">{{ s.text }}</div>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-if>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="doubt" data-screen-label="04 Не верите?" style="padding: clamp(80px, 11vw, 168px) clamp(20px, 5vw, 72px); border-top: 1px solid var(--color-divider);">
+        <div style="max-width: 1240px; margin: 0 auto; display: flex; flex-direction: column; gap: clamp(32px, 4vw, 56px);">
+          <div data-reveal="up" style="display: flex; align-items: center; gap: 16px; font: 400 13px/1 var(--font-body); letter-spacing: .24em; text-transform: uppercase; color: #1d3a8f; font-feature-settings: 'tnum';"><span>04</span><span style="flex: 1; height: 1px; background: var(--color-divider);"></span><span>Гарантия</span></div>
+          <h2 data-reveal="left" style="margin: 0; font: italic 500 clamp(72px, 13vw, 220px)/0.86 var(--font-heading); letter-spacing: -0.04em; color: #c8282e;">Не верите?</h2>
+          <div data-reveal="up" style="columns: 2 360px; column-gap: clamp(32px, 5vw, 80px); font-size: 17px; line-height: 1.75; text-align: justify; hyphens: auto;">
+            <p style="margin: 0 0 18px;">Если идеи на этом сайте в случае моей победы не будут реализованы в течение этого учебного года, то я официально и публично разрешаю всем студентам, голосовавшим за меня, кинуть в меня помидор (допускается что-либо интереснее, но не тяжёлое) по окончании года.</p>
+            <p style="margin: 0 0 18px;">Такая возможность есть и в том случае, если все идеи выполнены, но лично вам не понравилось качество выполнения или я не оправдал ваших личных ожиданий. Единственное условие — перед броском нужно сказать, чем именно вы недовольны.</p>
+            <p style="margin: 0;">Независимо от результатов моей работы, в случае победы на этом сайте будет опубликовано время «Встречи с хейтерами», где вы сможете с моим полным согласием реализовать свой бросок.</p>
+          </div>
+          <div data-reveal="up" style="border-top: 3px double #c8282e; border-bottom: 1px solid var(--color-divider);">
+            <div style="display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 12px; padding: 26px 0 18px;">
+              <h3 style="margin: 0; font: 500 clamp(32px, 3.6vw, 52px)/1 var(--font-heading); color: #c8282e;">Встреча с хейтерами</h3>
+              <span class="tag" style="background: #f9e5e4; color: #8f1a1f; font-size: 13px; padding: 5px 12px;">Время объявлю здесь</span>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); border-top: 1px solid var(--color-divider);">
+              <div data-reveal="up" style="padding: 22px 24px 26px 0; display: flex; flex-direction: column; gap: 6px;"><span style="font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: #1d3a8f;">Кто</span><span style="font: 500 24px/1.25 var(--font-heading);">Все, кто голосовал за меня</span></div>
+              <div data-reveal="up" data-delay="90" style="padding: 22px 24px 26px 0; display: flex; flex-direction: column; gap: 6px;"><span style="font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: #1d3a8f;">Чем</span><span style="font: 500 24px/1.25 var(--font-heading);">Помидор — или что-то интереснее, но не тяжёлое</span></div>
+              <div data-reveal="up" data-delay="180" style="padding: 22px 24px 26px 0; display: flex; flex-direction: column; gap: 6px;"><span style="font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: #1d3a8f;">Условие</span><span style="font: 500 24px/1.25 var(--font-heading);">Сначала скажите, чем именно недовольны</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer style="background: #1d3a8f; color: #f3f2f2; padding: clamp(48px, 6vw, 80px) clamp(20px, 5vw, 72px);">
+        <div style="max-width: 1240px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 24px;">
+          <div data-reveal="up" style="display: flex; flex-direction: column; gap: 8px;">
+            <div style="font: 500 clamp(40px, 5vw, 72px)/0.95 var(--font-heading); letter-spacing: -0.02em;">Голосуйте за <span style="font-style: italic; color: #ffd0cc;">№3</span></div>
+            <div style="font-size: 14px; color: #ccd6ef;">Расулов Тимур · выборы в студенческий сенат TSI</div>
+          </div>
+          <div data-reveal="up" data-delay="120" style="font: 400 15px/1 var(--font-body); letter-spacing: .22em; color: #ffd0cc;">#VoteForTimy</div>
+        </div>
+      </footer>
+    </main>
+  </sc-if>
+
+  <sc-if value="{{ isLetter }}" hint-placeholder-val="{{ false }}">
+    <main data-screen-label="Мотивационное письмо" style="padding: clamp(104px, 12vw, 168px) clamp(20px, 5vw, 72px) clamp(80px, 10vw, 140px);">
+      <button onClick="{{ closeLetter }}" aria-label="Вернуться назад" style="position: fixed; top: 16px; left: 16px; z-index: 50; width: 56px; height: 56px; display: grid; place-items: center; border: 1px solid #c8282e; border-radius: 50%; background: color-mix(in srgb, var(--color-bg) 86%, transparent); backdrop-filter: blur(12px); color: #c8282e; cursor: pointer; box-shadow: var(--shadow-sm); transition: background .2s;" style-hover="background: #f9e5e4;" style-active="background: #f2cbc9;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" style="stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round;"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg>
+      </button>
+      <article style="max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 22px;">
+        <div data-reveal="up" style="display: flex; align-items: center; gap: 16px; font: 400 13px/1 var(--font-body); letter-spacing: .24em; text-transform: uppercase; color: #c8282e;"><span>Кандидат №3</span><span style="flex: 1; height: 1px; background: var(--color-divider);"></span><span>ES-4-26</span></div>
+        <h1 data-reveal="left" style="margin: 0 0 12px; font: 500 clamp(52px, 7.4vw, 104px)/0.92 var(--font-heading); letter-spacing: -0.035em; color: #1d3a8f;">Мотивационное <span style="font-style: italic; color: #c8282e;">письмо</span></h1>
+        <p data-reveal="up" style="margin: 0; font: 400 clamp(26px, 2.8vw, 36px)/1.25 var(--font-heading); text-wrap: pretty;">Я, Расулов Тимур, мне 16 лет, и я являюсь студентом 1-го курса группы ES-4-26.</p>
+        <p data-reveal="up" style="margin: 0; font-size: 17px; line-height: 1.8; text-align: justify; hyphens: auto;">С 1-го по 9-й класс я учился в школе ОК-Г «Эврика». С 6-го по 9-й класс я занимал должность президента класса и являлся активным участником школьного парламента. В рамках деятельности парламента я помогал организовывать школьные мероприятия, проводить викторины среди учеников и учителей, а также вести официальный Telegram-канал нашей школы. Благодаря моей активной деятельности и ответственному выполнению своих обязанностей в начале 9-го класса мне доверили должность президента школьного парламента. Будучи президентом, я возглавлял работу парламента, организовывал встречи, помогал руководству в проведении школьных мероприятий, проводил викторины и активно вёл социальные сети школы «Эврика».</p>
+        <p data-reveal="up" style="margin: 0; font-size: 17px; line-height: 1.8; text-align: justify; hyphens: auto;">Также я активно занимался и продолжаю заниматься внешкольной деятельностью. Я принимал участие в бизнес-проекте TIFE, регулярно участвую в социальных проектах и инициативах, таких как Energy Flow 30 и Mind Over Bullying. Я стал победителем нескольких международных конкурсов, в том числе видеоконкурса ОБСЕ «Quality Education is a Right, Not a Privilege». Также я участвовал в восьми конференциях Модели ООН, где получил три номинации и один раз был приглашён в состав президиума. Я являюсь членом региональной молодёжной сети RYNKA, действующей при поддержке УНП.</p>
+        <p data-reveal="up" style="margin: 0; font-size: 17px; line-height: 1.8; text-align: justify; hyphens: auto;">Подобные мероприятия помогают мне раскрывать свои сильные стороны, пробовать себя в различных сферах, развивать новые навыки и находить интересные знакомства.</p>
+        <p data-reveal="up" style="margin: 0; font-size: 17px; line-height: 1.8; text-align: justify; hyphens: auto;">В этом году я запускаю эко-проект «Green Community» при Global Campus Central Asia. Мы собрали команду из 25 активных подростков в возрасте от 15 до 18 лет. В рамках проекта мы уже начали вести социальные сети с целью повышения осведомлённости об экологических проблемах. В нашем плане на учебный год — проведение собственного исследования качества воздуха в Бишкеке и его влияния на повседневную жизнь людей, а также проведение экологических тренингов в различных школах.</p>
+        <p data-reveal="up" style="margin: 0; font-size: 17px; line-height: 1.8; text-align: justify; hyphens: auto;">В рамках своей деятельности я развил навыки публичных выступлений и аргументации своей позиции, научился писать доклады и положения для конкурсов, работать с официальными документами, а также развил навыки в области SMM. Кроме того, я значительно улучшил свои soft skills: приобрёл лидерские качества, научился эффективно работать в команде и взаимодействовать с людьми.</p>
+        <p data-reveal="up" style="margin: 0; font-size: 17px; line-height: 1.8; text-align: justify; hyphens: auto;">Я хочу продолжить свою активную жизнь в студенческом сенате, чтобы максимально разнообразить студенческую жизнь в TSI: проводить множество интересных и весёлых инициатив и сделать подростковые годы незабываемыми для каждого студента!</p>
+        <p data-reveal="left" style="margin: 18px 0 0; padding-top: 22px; border-top: 3px double #c8282e; font: italic 500 clamp(36px, 4.4vw, 60px)/1.05 var(--font-heading); color: #c8282e;">Я начну прайм-эру колледжа!</p>
+        <div data-reveal="up" style="margin-top: 28px;">
+          <button class="btn btn-secondary" onClick="{{ closeLetter }}" style="padding: 12px 18px; font-size: 17px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" style="stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round;"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg>
+            Вернуться на главную
+          </button>
+        </div>
+      </article>
+    </main>
+  </sc-if>
+
+  <sc-if value="{{ authOpen }}" hint-placeholder-val="{{ false }}">
+    <div class="dialog-backdrop" onClick="{{ closeAuth }}" style="z-index: 80;">
+      <div class="dialog" onClick="{{ stop }}" role="dialog" aria-label="Регистрация" style="gap: 18px; padding: 32px; border-top: 3px solid #1d3a8f;">
+        <div style="font: 400 12px/1 var(--font-body); letter-spacing: .22em; text-transform: uppercase; color: #c8282e;">Регистрация</div>
+        <div class="dialog-title" style="font-size: 34px; line-height: 1.05; font-weight: 500; color: #1d3a8f;">Присоединяйтесь к команде №3</div>
+        <div class="dialog-body" style="font-size: 15px; line-height: 1.6;">Войдите через Google-аккаунт, чтобы ставить лайки идеям и отправлять предложения.</div>
+        <button class="btn" onClick="{{ signIn }}" style="padding: 14px 18px; font-size: 17px; color: var(--color-text); border-color: color-mix(in srgb, var(--color-text) 35%, transparent); background: var(--color-bg);" style-hover="border-color: #1d3a8f; color: #1d3a8f;">
+          <span style="font: 600 20px/1 var(--font-body); color: #1d3a8f;">G</span>
+          Продолжить с Google
+        </button>
+        <button class="btn btn-ghost" onClick="{{ closeAuth }}" style="align-self: center; font-size: 15px; color: var(--color-neutral-700);">Не сейчас</button>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;instagramUrl&quot;: {&quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;https://instagram.com/&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Ссылки&quot;}, &quot;youtubeUrl&quot;: {&quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;https://youtube.com/&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Ссылки&quot;}, &quot;animations&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Поведение&quot;}, &quot;showTicker&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Поведение&quot;}}">
+class Component extends DCLogic {
+  state = { page: 'home', open: {}, likes: {}, likeCounts: [], approvedSuggestions: [], user: null, authOpen: false, menuOpen: false, suggestOpen: false, draft: '', sent: false, sendError: null, narrow: false, pending: null };
+
+  barRef = React.createRef();
+  ghostRef = React.createRef();
+  photoRef = React.createRef();
+  tickerRef = React.createRef();
+
+  ideas = [
+    ['Дискотека после файналов', 'Общая дискотека по завершении каждого семестра — сразу после всех файналов.'],
+    ['Музыка на большой перемене', 'Студенты голосуют за плейлист недели, и во время большой перемены в колледже играет весёлая музыка.'],
+    ['Игра «Бегущий мудрец»', 'Каждый месяц по коридорам колледжа бегает мудрец и задаёт студентам и преподавателям тематические вопросы. За каждый верный ответ участник получает шоколадку или другой маленький приз.'],
+    ['Турниры и квизы', 'Организация турниров по спорту (футбол, баскетбол, волейбол), шахматам, квизов и многого другого.'],
+    ['Pajama Day', 'Объявить день, когда все студенты (и преподаватели) колледжа приходят в пижамах.'],
+    ['Номинации семестра', 'Во время награждения топ-20 — дополнительные номинации со сладкими призами: Волонтёр семестра (больше всего майн-часов), Босс знаний (больше всего часов тьюторства), Лучший хэд клуба (самый интересный клуб по результатам голосования) и другие.'],
+    ['Новый год', 'Новогоднее мероприятие с конкурсами и праздничной дискотекой.'],
+    ['«Королевский бал»', 'Атмосферное праздничное мероприятие на День влюблённых (в университете или другом месте). Парни приглашают себе пару и идут на бал. Каждая пара сможет поучаствовать в весёлых, романтичных и даже необычных конкурсах и выиграть призы. В конце бала для всего колледжа — волшебный вальс и яркая дискотека.'],
+    ['Маскот колледжа', 'Разработка вариантов маскота колледжа (мишка, тигр и т. д.) и выбор через голосование в Telegram-канале. Дальше маскот — волонтёр в костюме — появляется на всех мероприятиях и дарит всем весёлое настроение.'],
+    ['Соревнование между группами', 'В течение курса группы соревнуются в квизах и других активностях. За каждую победу группа получает очки; в конце курса подсчитываем очки и объявляем группу-победительницу, её студенты получают символические призы. Дополнительные очки — за попадание в топ-20, ноль пропусков ОАА у всей группы и т. д.'],
+    ['Онлайн-платформа TSI', 'Общий сайт для студентов колледжа: предлагать идеи для мероприятий, общаться в общем чате, читать о деятельности клубов, собирать команды для проектов вне колледжа — всё для крепкого community TSI.']
+  ];
+
+  componentDidMount() {
+    this.visitorId = this.getVisitorId();
+    try {
+      const user = JSON.parse(localStorage.getItem('imperator.user') || 'null');
+      this.setState({ user });
+    } catch (e) {}
+    this.loadLikes();
+    this.loadApproved();
+    this.onResize = () => this.setState({ narrow: window.innerWidth < 1000 });
+    this.onScroll = () => this.scrollFx();
+    this.onKey = (e) => { if (e.key === 'Escape') this.setState({ authOpen: false, menuOpen: false }); };
+    this.onResize();
+    window.addEventListener('resize', this.onResize);
+    window.addEventListener('scroll', this.onScroll, { passive: true });
+    window.addEventListener('keydown', this.onKey);
+    this.onVis = () => this.revealVisible();
+    document.addEventListener('visibilitychange', this.onVis);
+    this.tx = 0;
+    const tick = () => {
+      const el = this.tickerRef.current;
+      if (el) {
+        this.tx -= 0.6;
+        const half = el.scrollWidth / 2;
+        if (half && -this.tx >= half) this.tx += half;
+        el.style.transform = 'translate3d(' + this.tx + 'px,0,0)';
+      }
+      this.raf = requestAnimationFrame(tick);
+    };
+    this.raf = requestAnimationFrame(tick);
+    this.setupReveal();
+    this.scrollFx();
+    this.mo = new MutationObserver(() => { clearTimeout(this.moT); this.moT = setTimeout(() => this.setupReveal(), 16); });
+    this.mo.observe(document.body, { childList: true, subtree: true });
+  }
+
+  setPage(page) {
+    this.setState({ page, menuOpen: false }, () => {
+      if (page === 'letter') window.scrollTo({ top: 0, behavior: 'instant' });
+      else this.scrollToId('about', false);
+      this.setupReveal();
+      this.scrollFx();
+    });
+  }
+
+  componentWillUnmount() {
+    if (this.mo) this.mo.disconnect();
+    window.removeEventListener('resize', this.onResize);
+    window.removeEventListener('scroll', this.onScroll);
+    window.removeEventListener('keydown', this.onKey);
+    cancelAnimationFrame(this.raf);
+    if (this.io) this.io.disconnect();
+  }
+
+
+
+  showAll() {
+    document.querySelectorAll('[data-reveal]').forEach((el) => { el.setAttribute('data-rv', '1'); el.style.opacity = '1'; el.style.transform = 'none'; });
+  }
+
+  revealVisible() {
+    const h = window.innerHeight;
+    document.querySelectorAll('[data-rv]').forEach((el) => {
+      if (el.style.opacity !== '0') return;
+      const r = el.getBoundingClientRect();
+      if (r.top < h && r.bottom > 0) { el.style.opacity = '1'; el.style.transform = 'none'; if (this.io) this.io.unobserve(el); }
+    });
+  }
+
+  setupReveal() {
+    if (this.props.animations === false) return;
+    if (typeof IntersectionObserver === 'undefined' || document.visibilityState === 'hidden') { this.showAll(); return; }
+    clearTimeout(this.safeT);
+    this.safeT = setTimeout(() => this.revealVisible(), 1200);
+    if (!this.io) {
+      this.io = new IntersectionObserver((entries) => {
+        entries.forEach((en) => {
+          if (en.isIntersecting) {
+            en.target.style.opacity = '1';
+            en.target.style.transform = 'none';
+            this.io.unobserve(en.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+    }
+    const from = { up: 'translate3d(0,48px,0)', down: 'translate3d(0,-24px,0)', left: 'translate3d(-72px,0,0)', right: 'translate3d(72px,0,0)', scale: 'scale(1.12)' };
+    document.querySelectorAll('[data-reveal]:not([data-rv])').forEach((el) => {
+      el.setAttribute('data-rv', '1');
+      const d = +(el.getAttribute('data-delay') || 0);
+      const kind = el.getAttribute('data-reveal');
+      const dur = kind === 'scale' ? 1.6 : 0.95;
+      el.style.opacity = '0';
+      el.style.transform = from[kind] || from.up;
+      el.style.transition = 'opacity ' + dur + 's cubic-bezier(.2,.7,.2,1) ' + d + 'ms, transform ' + dur + 's cubic-bezier(.2,.7,.2,1) ' + d + 'ms';
+      this.io.observe(el);
+    });
+  }
+
+  scrollFx() {
+    const y = window.scrollY;
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    if (this.barRef.current) this.barRef.current.style.transform = 'scaleX(' + (max > 0 ? Math.min(1, y / max) : 0) + ')';
+    if (this.props.animations === false) return;
+    if (this.ghostRef.current) this.ghostRef.current.style.transform = 'translate3d(0,' + (-y * 0.22) + 'px,0)';
+    const p = this.photoRef.current;
+    if (p && p.style.opacity === '1') p.style.transform = 'translate3d(0,' + (y * 0.12) + 'px,0)';
+  }
+
+  scrollToId(id, smooth = true) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY, behavior: smooth ? 'smooth' : 'instant' });
+  }
+
+  go(id) {
+    this.setState({ menuOpen: false });
+    if (this.state.page !== 'home') { this.setState({ page: 'home' }, () => { this.setupReveal(); this.scrollToId(id, false); }); }
+    else this.scrollToId(id);
+  }
+
+  requireAuth(action) {
+    if (this.state.user) { action(); return; }
+    this.setState({ authOpen: true, pending: action });
+  }
+
+  getVisitorId() {
+    try {
+      let id = localStorage.getItem('imperator.visitorId');
+      if (!id) {
+        id = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : 'v-' + Date.now() + '-' + Math.random().toString(36).slice(2);
+        localStorage.setItem('imperator.visitorId', id);
+      }
+      return id;
+    } catch (e) {
+      return 'v-' + Date.now() + '-' + Math.random().toString(36).slice(2);
+    }
+  }
+
+  loadLikes() {
+    fetch('/api/likes?visitorId=' + encodeURIComponent(this.visitorId))
+      .then((r) => r.ok ? r.json() : null)
+      .then((data) => {
+        if (!data) return;
+        const likes = {};
+        (data.likedByVisitor || []).forEach((i) => { likes[i] = true; });
+        this.setState({ likes, likeCounts: data.counts || [] });
+      })
+      .catch(() => {});
+  }
+
+  loadApproved() {
+    fetch('/api/suggestions?status=approved')
+      .then((r) => r.ok ? r.json() : [])
+      .then((list) => this.setState({ approvedSuggestions: list || [] }))
+      .catch(() => {});
+  }
+
+  toggleLike(i) {
+    this.requireAuth(() => {
+      const wasLiked = !!this.state.likes[i];
+      const prevCounts = this.state.likeCounts;
+      const optimisticCounts = prevCounts.slice();
+      optimisticCounts[i] = Math.max(0, (optimisticCounts[i] || 0) + (wasLiked ? -1 : 1));
+      this.setState((s) => ({ likes: { ...s.likes, [i]: !wasLiked }, likeCounts: optimisticCounts }));
+
+      fetch('/api/likes/' + i, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ visitorId: this.visitorId })
+      })
+        .then((r) => r.ok ? r.json() : Promise.reject())
+        .then((res) => {
+          this.setState((s) => {
+            const likes = { ...s.likes, [i]: res.liked };
+            const likeCounts = s.likeCounts.slice();
+            likeCounts[i] = res.count;
+            return { likes, likeCounts };
+          });
+        })
+        .catch(() => {
+          this.setState(() => ({
+            likes: { ...this.state.likes, [i]: wasLiked },
+            likeCounts: prevCounts
+          }));
+        });
+    });
+  }
+
+  renderVals() {
+    const s = this.state;
+    const ideas = this.ideas.map(([title, text], i) => {
+      const open = !!s.open[i];
+      const liked = !!s.likes[i];
+      return {
+        n: String(i + 1).padStart(2, '0'), title, text,
+        count: (s.likeCounts && s.likeCounts[i]) || 0,
+        expanded: open ? 'true' : 'false', liked: liked ? 'true' : 'false',
+        rows: open ? '1fr' : '0fr', textOpacity: open ? 1 : 0,
+        chevron: open ? 'rotate(180deg)' : 'rotate(0deg)',
+        border: open ? '#c8282e' : 'var(--color-divider)',
+        bg: open ? 'color-mix(in srgb, #f9e5e4 45%, transparent)' : 'transparent',
+        heartFill: liked ? '#c8282e' : 'none',
+        heartColor: liked ? '#c8282e' : 'var(--color-text)',
+        likeBorder: liked ? '#c8282e' : 'var(--color-divider)',
+        toggle: () => this.setState((st) => ({ open: { ...st.open, [i]: !st.open[i] } })),
+        like: (e) => { e.stopPropagation(); this.toggleLike(i); }
+      };
+    });
+    return {
+      barRef: this.barRef, ghostRef: this.ghostRef, photoRef: this.photoRef, tickerRef: this.tickerRef,
+      isHome: s.page === 'home', isLetter: s.page === 'letter',
+      showLinks: s.page === 'home' && !s.narrow,
+      signedIn: !!s.user, signedOut: !s.user, menuOpen: s.menuOpen && !!s.user,
+      userEmail: s.user ? s.user.email : '',
+      authOpen: s.authOpen,
+      showTicker: this.props.showTicker ?? true,
+      instagramUrl: this.props.instagramUrl ?? 'https://instagram.com/',
+      youtubeUrl: this.props.youtubeUrl ?? 'https://youtube.com/',
+      ideas,
+      showSuggestBtn: !s.suggestOpen && !s.sent, suggestOpen: s.suggestOpen && !s.sent, sent: s.sent,
+      draft: s.draft, sendDisabled: !s.draft.trim(), sendError: s.sendError || '',
+      approvedSuggestions: (s.approvedSuggestions || []).map((x) => ({ text: x.text })),
+      hasApproved: !!(s.approvedSuggestions && s.approvedSuggestions.length),
+      goAbout: () => this.go('about'), goIdeas: () => this.go('ideas'), goSuggest: () => this.go('suggest'), goDoubt: () => this.go('doubt'),
+      openLetter: () => this.setPage('letter'),
+      closeLetter: () => this.setPage('home'),
+      openAuth: () => this.setState({ authOpen: true }),
+      closeAuth: () => this.setState({ authOpen: false, pending: null }),
+      stop: (e) => e.stopPropagation(),
+      toggleMenu: () => this.setState((st) => ({ menuOpen: !st.menuOpen })),
+      signIn: () => {
+        const user = { email: 'student@gmail.com' };
+        try { localStorage.setItem('imperator.user', JSON.stringify(user)); } catch (e) {}
+        const pending = s.pending;
+        this.setState({ user, authOpen: false, pending: null }, () => { if (pending) pending(); });
+      },
+      signOut: () => {
+        try { localStorage.removeItem('imperator.user'); } catch (e) {}
+        this.setState({ user: null, menuOpen: false });
+      },
+      openSuggest: () => this.setState({ suggestOpen: true, sendError: null }),
+      closeSuggest: () => this.setState({ suggestOpen: false, sendError: null }),
+      onDraft: (e) => this.setState({ draft: e.target.value }),
+      send: () => this.requireAuth(() => {
+        const text = this.state.draft.trim();
+        this.setState({ sendError: null });
+        fetch('/api/suggestions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text, visitorId: this.visitorId })
+        })
+          .then((r) => { if (!r.ok) throw new Error('failed'); })
+          .then(() => this.setState({ sent: true, draft: '', suggestOpen: false, sendError: null }))
+          .catch(() => this.setState({ sendError: 'Не получилось отправить. Попробуйте ещё раз.' }));
+      }),
+      again: () => this.setState({ sent: false, suggestOpen: true, sendError: null })
+    };
+  }
+}
+</script>
+</body>
+</html>
