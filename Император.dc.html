@@ -75,22 +75,10 @@ a:hover { color: #c8282e; }
 
       <section data-screen-label="Manifest" style="background: #1d3a8f; color: #f3f2f2; padding: clamp(64px, 9vw, 136px) clamp(20px, 5vw, 72px);">
         <div style="max-width: 1240px; margin: 0 auto; display: flex; flex-direction: column; gap: 28px;">
-          <div data-reveal="up" style="display: flex; align-items: center; gap: 16px; font: 400 13px/1 var(--font-body); letter-spacing: .24em; text-transform: uppercase; color: #ffd0cc;"><span>Моё обещание</span><span style="flex: 1; height: 1px; background: color-mix(in srgb, #f3f2f2 30%, transparent);"></span></div>
           <p data-reveal="up" data-delay="100" style="margin: 0; font: italic 400 clamp(30px, 4vw, 60px)/1.14 var(--font-heading); letter-spacing: -0.01em; text-wrap: pretty;">Студенческая жизнь — это отдельная культура колледжа, и я собираюсь сделать её максимально яркой и запоминающейся.</p>
           <p data-reveal="up" data-delay="220" style="margin: 0; font: italic 400 clamp(24px, 2.6vw, 40px)/1.2 var(--font-heading); color: #ffd0cc; text-wrap: pretty;">А если у меня не получится (что вряд ли) — можете закидать меня <span style="text-decoration: underline; text-decoration-color: #ff6b5e; text-decoration-thickness: 2px; text-underline-offset: 6px;">помидорами</span>.</p>
         </div>
       </section>
-
-      <sc-if value="{{ showTicker }}" hint-placeholder-val="{{ true }}">
-        <div aria-hidden="true" style="overflow: hidden; border-bottom: 1px solid #c8282e; padding: 22px 0; white-space: nowrap;">
-          <div ref="{{ tickerRef }}" style="display: inline-flex; align-items: center; gap: 48px; padding-left: 48px; font: 600 clamp(28px, 3.6vw, 52px)/1 var(--font-heading); text-transform: uppercase; letter-spacing: .02em; will-change: transform;">
-            <span style="color: #c8282e;">#VoteForTimy</span><span style="color: #1d3a8f; font-style: italic;">Кандидат №3</span><span style="color: #c8282e;">Расулов Тимур</span><span style="color: #1d3a8f; font-style: italic;">Сенат TSI</span>
-            <span style="color: #c8282e;">#VoteForTimy</span><span style="color: #1d3a8f; font-style: italic;">Кандидат №3</span><span style="color: #c8282e;">Расулов Тимур</span><span style="color: #1d3a8f; font-style: italic;">Сенат TSI</span>
-            <span style="color: #c8282e;">#VoteForTimy</span><span style="color: #1d3a8f; font-style: italic;">Кандидат №3</span><span style="color: #c8282e;">Расулов Тимур</span><span style="color: #1d3a8f; font-style: italic;">Сенат TSI</span>
-            <span style="color: #c8282e;">#VoteForTimy</span><span style="color: #1d3a8f; font-style: italic;">Кандидат №3</span><span style="color: #c8282e;">Расулов Тимур</span><span style="color: #1d3a8f; font-style: italic;">Сенат TSI</span>
-          </div>
-        </div>
-      </sc-if>
 
       <section id="about" data-screen-label="01 Обо мне" style="padding: clamp(80px, 11vw, 168px) clamp(20px, 5vw, 72px);">
         <div style="max-width: 1240px; margin: 0 auto; display: flex; flex-direction: column; gap: clamp(32px, 4vw, 56px);">
@@ -292,14 +280,13 @@ a:hover { color: #c8282e; }
   </sc-if>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;instagramUrl&quot;: {&quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;https://instagram.com/&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Ссылки&quot;}, &quot;youtubeUrl&quot;: {&quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;https://youtube.com/&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Ссылки&quot;}, &quot;animations&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Поведение&quot;}, &quot;showTicker&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Поведение&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;instagramUrl&quot;: {&quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;https://instagram.com/&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Ссылки&quot;}, &quot;youtubeUrl&quot;: {&quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;https://youtube.com/&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Ссылки&quot;}, &quot;animations&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Поведение&quot;}}">
 class Component extends DCLogic {
   state = { page: 'home', open: {}, likes: {}, likeCounts: [], approvedSuggestions: [], user: null, authOpen: false, menuOpen: false, suggestOpen: false, draft: '', sent: false, sendError: null, narrow: false, pending: null };
 
   barRef = React.createRef();
   ghostRef = React.createRef();
   photoRef = React.createRef();
-  tickerRef = React.createRef();
 
   ideas = [
     ['Дискотека после файналов', 'Общая дискотека по завершении каждого семестра — сразу после всех файналов.'],
@@ -332,18 +319,6 @@ class Component extends DCLogic {
     window.addEventListener('keydown', this.onKey);
     this.onVis = () => this.revealVisible();
     document.addEventListener('visibilitychange', this.onVis);
-    this.tx = 0;
-    const tick = () => {
-      const el = this.tickerRef.current;
-      if (el) {
-        this.tx -= 0.6;
-        const half = el.scrollWidth / 2;
-        if (half && -this.tx >= half) this.tx += half;
-        el.style.transform = 'translate3d(' + this.tx + 'px,0,0)';
-      }
-      this.raf = requestAnimationFrame(tick);
-    };
-    this.raf = requestAnimationFrame(tick);
     this.setupReveal();
     this.scrollFx();
     this.mo = new MutationObserver(() => { clearTimeout(this.moT); this.moT = setTimeout(() => this.setupReveal(), 16); });
@@ -364,7 +339,6 @@ class Component extends DCLogic {
     window.removeEventListener('resize', this.onResize);
     window.removeEventListener('scroll', this.onScroll);
     window.removeEventListener('keydown', this.onKey);
-    cancelAnimationFrame(this.raf);
     if (this.io) this.io.disconnect();
   }
 
@@ -523,13 +497,12 @@ class Component extends DCLogic {
       };
     });
     return {
-      barRef: this.barRef, ghostRef: this.ghostRef, photoRef: this.photoRef, tickerRef: this.tickerRef,
+      barRef: this.barRef, ghostRef: this.ghostRef, photoRef: this.photoRef,
       isHome: s.page === 'home', isLetter: s.page === 'letter',
       showLinks: s.page === 'home' && !s.narrow,
       signedIn: !!s.user, signedOut: !s.user, menuOpen: s.menuOpen && !!s.user,
       userEmail: s.user ? s.user.email : '',
       authOpen: s.authOpen,
-      showTicker: this.props.showTicker ?? true,
       instagramUrl: this.props.instagramUrl ?? 'https://instagram.com/',
       youtubeUrl: this.props.youtubeUrl ?? 'https://youtube.com/',
       ideas,
