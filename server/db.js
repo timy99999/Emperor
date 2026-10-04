@@ -55,6 +55,11 @@ function load() {
     data.nextIdeaId = data.ideas.length + 1;
   }
   if (!data.nextIdeaId) data.nextIdeaId = data.ideas.length + 1;
+  // Drop pre-migration like rows that still use the old fixed-index scheme
+  // (idea_index, no idea_id) — they can't be mapped to a real idea id.
+  if (Array.isArray(data.likes)) {
+    data.likes = data.likes.filter((l) => l.idea_id !== undefined);
+  }
   return data;
 }
 
