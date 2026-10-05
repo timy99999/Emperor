@@ -19,6 +19,14 @@ html { scroll-behavior: smooth; }
 body { margin: 0; overflow-x: hidden; background: #f3f2f2; }
 a { color: #1d3a8f; }
 a:hover { color: #c8282e; }
+@media (max-width: 640px) {
+  #hero { min-height: 0; align-content: start; }
+  #hero-photo-wrap { order: -1; min-height: 0; aspect-ratio: 16 / 10; border-left: 0; border-bottom: 1px solid var(--color-divider); }
+  #hero-text { padding: 32px 16px 56px; align-items: flex-start; overflow: visible; }
+  #hero-name { transform: none; width: 100%; }
+  .hero-line { font-size: 18.5vw !important; white-space: nowrap; }
+  #auth-btn { display: none !important; }
+}
 </style>
 </helmet>
 <div lang="ru" style="position: relative; min-height: 100vh; background: var(--color-bg); color: var(--color-text); font-family: var(--font-body); overflow-x: clip;">
@@ -35,7 +43,7 @@ a:hover { color: #c8282e; }
       </nav>
     </sc-if>
     <sc-if value="{{ signedOut }}" hint-placeholder-val="{{ true }}">
-      <button onClick="{{ openAuth }}" aria-label="Регистрация через Google" title="Регистрация" style="width: 44px; height: 44px; display: grid; place-items: center; border: 1px solid #1d3a8f; border-radius: 50%; background: transparent; color: #1d3a8f; cursor: pointer; transition: background .2s;" style-hover="background: #e6ebf7;" style-active="background: #ccd6ef;">
+      <button id="auth-btn" onClick="{{ openAuth }}" aria-label="Регистрация через Google" title="Регистрация" style="width: 44px; height: 44px; display: grid; place-items: center; border: 1px solid #1d3a8f; border-radius: 50%; background: transparent; color: #1d3a8f; cursor: pointer; transition: background .2s;" style-hover="background: #e6ebf7;" style-active="background: #ccd6ef;">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" style="stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round;"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="10" r="3"></circle><path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"></path></svg>
       </button>
     </sc-if>
@@ -55,18 +63,18 @@ a:hover { color: #c8282e; }
 
   <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
     <main>
-      <section data-screen-label="Hero" style="position: relative; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr)); min-height: 100vh; overflow: hidden;">
-        <div style="position: relative; display: flex; align-items: center; padding: clamp(120px, 14vh, 160px) clamp(20px, 5vw, 72px) clamp(72px, 10vh, 120px); overflow: hidden;">
+      <section id="hero" data-screen-label="Hero" style="position: relative; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr)); min-height: 100vh; overflow: hidden;">
+        <div id="hero-text" style="position: relative; display: flex; align-items: center; padding: clamp(120px, 14vh, 160px) clamp(20px, 5vw, 72px) clamp(72px, 10vh, 120px); overflow: hidden;">
           <div ref="{{ ghostRef }}" aria-hidden="true" style="position: absolute; left: -2vw; bottom: -14vh; font: 600 min(62vh, 52vw)/0.8 var(--font-heading); color: transparent; -webkit-text-stroke: 1.5px #1d3a8f; opacity: .14; pointer-events: none; user-select: none; letter-spacing: -0.05em;">3</div>
-          <div style="position: relative; transform: rotate(-6deg); transform-origin: 0% 50%;">
-            <div data-reveal="left" style="font: 500 clamp(54px, 7.6vw, 132px)/0.88 var(--font-heading); color: #1d3a8f; letter-spacing: -0.035em;">Кандидат</div>
-            <div data-reveal="left" data-delay="120" style="font: 500 clamp(54px, 7.6vw, 132px)/0.88 var(--font-heading); color: #1d3a8f; letter-spacing: -0.035em; display: flex; align-items: baseline; gap: .18em;"><span>номер</span><span style="font-style: italic; font-weight: 600; font-size: 1.32em;">3</span></div>
-            <div data-reveal="left" data-delay="260" style="margin-top: .12em; font: 600 clamp(58px, 8.4vw, 148px)/0.88 var(--font-heading); color: #c8282e; letter-spacing: -0.035em;">Расулов</div>
-            <div data-reveal="left" data-delay="380" style="font: 600 clamp(58px, 8.4vw, 148px)/0.88 var(--font-heading); color: #c8282e; letter-spacing: -0.035em;">Тимур</div>
-            <div data-reveal="up" data-delay="620" style="margin-top: 28px; display: flex; align-items: center; gap: 14px; font: 400 15px/1 var(--font-body); letter-spacing: .22em; color: var(--color-text);"><span style="width: 44px; height: 1px; background: currentColor;"></span><span>#VoteForTimy</span></div>
+          <div id="hero-name" style="position: relative; transform: rotate(-6deg); transform-origin: 0% 50%;">
+            <div data-reveal="left" class="hero-line" style="font: 500 clamp(54px, 7.6vw, 132px)/0.88 var(--font-heading); color: #1d3a8f; letter-spacing: -0.035em;">Кандидат</div>
+            <div data-reveal="left" data-delay="120" class="hero-line" style="font: 500 clamp(54px, 7.6vw, 132px)/0.88 var(--font-heading); color: #1d3a8f; letter-spacing: -0.035em; display: flex; align-items: baseline; gap: .18em;"><span>номер</span><span style="font-style: italic; font-weight: 600; font-size: 1.32em;">3</span></div>
+            <div data-reveal="left" data-delay="260" class="hero-line hero-line-red" style="margin-top: .12em; font: 600 clamp(58px, 8.4vw, 148px)/0.88 var(--font-heading); color: #c8282e; letter-spacing: -0.035em;">Расулов</div>
+            <div data-reveal="left" data-delay="380" class="hero-line hero-line-red" style="font: 600 clamp(58px, 8.4vw, 148px)/0.88 var(--font-heading); color: #c8282e; letter-spacing: -0.035em;">Тимур</div>
+            <div data-reveal="up" data-delay="620" style="margin-top: 28px; display: flex; align-items: center; gap: 14px; font: 400 15px/1 var(--font-body); letter-spacing: .22em; color: var(--color-text);"><span style="width: 44px; height: 1px; background: currentColor;"></span><span>#VoteForTimy3</span></div>
           </div>
         </div>
-        <div style="position: relative; min-height: 560px; overflow: hidden; border-left: 1px solid var(--color-divider);">
+        <div id="hero-photo-wrap" style="position: relative; min-height: 560px; overflow: hidden; border-left: 1px solid var(--color-divider);">
           <div ref="{{ photoRef }}" data-reveal="scale" style="position: absolute; top: -6%; bottom: -6%; left: 0; right: 0;">
             <image-slot id="hero-photo" shape="rect" fit="cover" placeholder="Перетащите сюда фото 1"></image-slot>
           </div>
@@ -76,7 +84,7 @@ a:hover { color: #c8282e; }
       <section data-screen-label="Manifest" style="background: #1d3a8f; color: #f3f2f2; padding: clamp(64px, 9vw, 136px) clamp(20px, 5vw, 72px);">
         <div style="max-width: 1240px; margin: 0 auto; display: flex; flex-direction: column; gap: 28px;">
           <p data-reveal="up" data-delay="100" style="margin: 0; font: italic 400 clamp(30px, 4vw, 60px)/1.14 var(--font-heading); letter-spacing: -0.01em; text-wrap: pretty;">Студенческая жизнь — это отдельная культура колледжа, и я собираюсь сделать её максимально яркой и запоминающейся.</p>
-          <p data-reveal="up" data-delay="220" style="margin: 0; font: italic 400 clamp(24px, 2.6vw, 40px)/1.2 var(--font-heading); color: #ffd0cc; text-wrap: pretty;">А если у меня не получится (что вряд ли) — можете закидать меня <span style="text-decoration: underline; text-decoration-color: #ff6b5e; text-decoration-thickness: 2px; text-underline-offset: 6px;">шариками с водой</span>.</p>
+          <p data-reveal="up" data-delay="220" style="margin: 0; font: italic 400 clamp(24px, 2.6vw, 40px)/1.2 var(--font-heading); color: #ffd0cc; text-wrap: pretty;">А если у меня не получится (что вряд ли) — можете закидать меня <span>шариками с водой</span>.</p>
         </div>
       </section>
 
@@ -104,12 +112,6 @@ a:hover { color: #c8282e; }
                 </button>
               </div>
             </div>
-          </div>
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); border-top: 1px solid var(--color-divider);">
-            <div data-reveal="up" style="padding: 28px 24px 8px 0; display: flex; flex-direction: column; gap: 8px;"><span style="font: 500 clamp(52px, 5.4vw, 84px)/1 var(--font-heading); color: #1d3a8f; font-feature-settings: 'tnum';">16</span><span style="font-size: 14px; color: var(--color-neutral-700);">лет</span></div>
-            <div data-reveal="up" data-delay="90" style="padding: 28px 24px 8px 0; display: flex; flex-direction: column; gap: 8px;"><span style="font: 500 clamp(52px, 5.4vw, 84px)/1 var(--font-heading); color: #c8282e; font-feature-settings: 'tnum';">1 курс</span><span style="font-size: 14px; color: var(--color-neutral-700);">группа ES-4-26</span></div>
-            <div data-reveal="up" data-delay="180" style="padding: 28px 24px 8px 0; display: flex; flex-direction: column; gap: 8px;"><span style="font: 500 clamp(52px, 5.4vw, 84px)/1 var(--font-heading); color: #1d3a8f; font-feature-settings: 'tnum';">1🍋+</span><span style="font-size: 14px; color: var(--color-neutral-700);">просмотров на YouTube</span></div>
-            <div data-reveal="up" data-delay="270" style="padding: 28px 24px 8px 0; display: flex; flex-direction: column; gap: 8px;"><span style="font: 500 clamp(52px, 5.4vw, 84px)/1 var(--font-heading); color: #c8282e; font-feature-settings: 'tnum';">8</span><span style="font-size: 14px; color: var(--color-neutral-700);">стран за плечами</span></div>
           </div>
         </div>
       </section>
@@ -232,7 +234,7 @@ a:hover { color: #c8282e; }
             <div style="font: 500 clamp(40px, 5vw, 72px)/0.95 var(--font-heading); letter-spacing: -0.02em;">Голосуйте за <span style="font-style: italic; color: #ffd0cc;">№3</span></div>
             <div style="font-size: 14px; color: #ccd6ef;">Расулов Тимур · выборы в студенческий сенат TSI</div>
           </div>
-          <div data-reveal="up" data-delay="120" style="font: 400 15px/1 var(--font-body); letter-spacing: .22em; color: #ffd0cc;">#VoteForTimy</div>
+          <div data-reveal="up" data-delay="120" style="font: 400 15px/1 var(--font-body); letter-spacing: .22em; color: #ffd0cc;">#VoteForTimy3</div>
         </div>
       </footer>
     </main>
@@ -478,8 +480,8 @@ class Component extends DCLogic {
         expanded: open ? 'true' : 'false', liked: liked ? 'true' : 'false',
         rows: open ? '1fr' : '0fr', textOpacity: open ? 1 : 0,
         chevron: open ? 'rotate(180deg)' : 'rotate(0deg)',
-        border: open ? '#c8282e' : 'var(--color-divider)',
-        bg: open ? 'color-mix(in srgb, #f9e5e4 45%, transparent)' : 'transparent',
+        border: 'var(--color-divider)',
+        bg: 'transparent',
         heartFill: liked ? '#c8282e' : 'none',
         heartColor: liked ? '#c8282e' : 'var(--color-text)',
         likeBorder: liked ? '#c8282e' : 'var(--color-divider)',
