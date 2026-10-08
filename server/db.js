@@ -28,6 +28,12 @@ const DEFAULT_IDEAS = [
   ['Онлайн-платформа TSI', 'Общий сайт для студентов колледжа: предлагать идеи для мероприятий, общаться в общем чате, читать о деятельности клубов, собирать команды для проектов вне колледжа — всё для крепкого community TSI.'],
 ];
 
+// Appended to an already-seeded data file on boot (matched by title) so new
+// ideas added here reach the deployed Railway volume without admin-panel access.
+const ADDITIONAL_IDEAS = [
+  ['College Challenge', 'Студенты делятся на команды и проходят серию интерактивных испытаний, каждое из которых связано с определённым направлением колледжа. Это могут быть задания на творчество, технологии, бизнес, коммуникацию, лидерство, медиа, аналитику и другие сферы.\nГлавная цель мероприятия — помочь студентам на практике попробовать себя в разных направлениях и понять, что им действительно интересно.'],
+];
+
 function seedIdeas() {
   const now = Date.now();
   return DEFAULT_IDEAS.map(([title, text], i) => ({
@@ -37,6 +43,18 @@ function seedIdeas() {
     order: i + 1,
     created_at: now,
   }));
+}
+
+function applyAdditionalIdeas(data) {
+  const existingTitles = new Set(data.ideas.map((idea) => idea.title));
+  let changed = false;
+  for (const [title, text] of ADDITIONAL_IDEAS) {
+    if (existingTitles.has(title)) continue;
+    const maxOrder = data.ideas.reduce((max, idea) => Math.max(max, idea.order), 0);
+    data.ideas.push({ id: data.nextIdeaId++, title, text, order: maxOrder + 1, created_at: Date.now() });
+    changed = true;
+  }
+  return changed;
 }
 
 function load() {
@@ -55,6 +73,7 @@ function load() {
     data.nextIdeaId = data.ideas.length + 1;
   }
   if (!data.nextIdeaId) data.nextIdeaId = data.ideas.length + 1;
+  applyAdditionalIdeas(data);
   // Drop pre-migration like rows that still use the old fixed-index scheme
   // (idea_index, no idea_id) — they can't be mapped to a real idea id.
   if (Array.isArray(data.likes)) {
